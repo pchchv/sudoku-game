@@ -103,4 +103,13 @@ int main(int argc, char *argv[])
             method = "RP";
         }
     }
+
+    srand(seed); // set random seed
+
+    // Welcome message
+    cout << "===========================================" << endl;
+    cout << "============ Welcome to Sudoku! ===========" << endl;
+    cout << "===========================================" << endl;
+
+    return 0;
 }
