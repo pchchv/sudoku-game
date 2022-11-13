@@ -129,4 +129,4 @@ public:
 bool feasible(Board &b, int row, int col, int val);
 bool solve(Board &b, int row, int col);
 int *genPerm(int N);
-Board generatePuzzle(int n, int nobs);
+Board generateSudoku(int n, int nobs);
