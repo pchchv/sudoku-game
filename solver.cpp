@@ -82,3 +82,46 @@ void Board::printSudoku()
         }
     }
 }
+
+// Checks if the sudoku is complete
+bool Board::checkSudoku()
+{
+    int val = 0;
+
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+        {
+            val = (*this)(i, j);
+            (*this)(i, j) = 0;
+            if (!feasible(*this, i, j, val))
+            {
+                (*this)(i, j) = val;
+                return false;
+            }
+            (*this)(i, j) = val;
+        }
+    return true;
+}
+
+// All cells that are not immutable are empty,
+// immutable cells are filled with randomly generated data
+void Board::clearSudoku()
+{
+    for (int i = 0; i < N; i++)
+        for (int j = 0; j < N; j++)
+            if (!checkImmutable(i, j))
+                (*this)(i, j) = 0;
+}
+
+// Checks if the value is in the sudoku size range
+bool Board::inBounds(int val)
+{
+    if ((val > 0) && (val <= N))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
