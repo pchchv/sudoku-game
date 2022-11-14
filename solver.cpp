@@ -125,3 +125,72 @@ bool Board::inBounds(int val)
         return false;
     }
 }
+
+// Checks the feasibility of the board
+// Not useful for solvers because it cannot return once the problem is solved
+// Needs to cycle through the entire board to update the problem cells to return red to the user
+bool Board::feasibleUser(int row, int col, int val)
+{
+    int blockSize = (int)sqrt(N);
+
+    if (row >= N)
+    {
+        std::cout << "You can't play off the game board!" << endl;
+        return false;
+    }
+
+    if (col >= N)
+    {
+        std::cout << "You can't play off the game board!" << endl;
+        return false;
+    }
+
+    bool isfeasible = true;
+
+    for (int i = 0; i < N; i++)
+    {
+        if ((*this)(row, i) == val)
+        {
+            infeasible[row][i] = true;
+            isfeasible = false;
+        }
+        else
+        {
+            infeasible[row][i] = false;
+        }
+    }
+
+    for (int i = 0; i < N; i++)
+    {
+        if ((*this)(i, col) == val)
+        {
+            infeasible[i][col] = true;
+            isfeasible = false;
+        }
+        else
+        {
+            infeasible[i][col] = false;
+        }
+    }
+
+    int blockRow = blockSize * (row / blockSize);
+    int blockCol = blockSize * (col / blockSize);
+
+    // Checks if used yet in block
+    for (int i = 0; i < blockSize; i++)
+    {
+        for (int j = 0; j < blockSize; j++)
+        {
+            if ((*this)(blockRow + i, blockCol + j) == val)
+            {
+                infeasible[blockRow + i][blockCol + j] = true;
+                isfeasible = false;
+            }
+            else
+            {
+                infeasible[blockRow + i][blockCol + j] = false;
+            }
+        }
+    }
+    return isfeasible;
+}
