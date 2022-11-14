@@ -277,3 +277,62 @@ bool solve(Board &board, int row, int col)
     board(row, col) = 0;
     return false;
 }
+
+// Generates a board for the solution
+// Only N possible boards are generated
+// TODO: Expand to get more
+Board generateSudoku(int N, int nobs)
+{
+    // Generate permutation of 1...n
+    // Fill diagonal of board with this permutation
+    // Solve board
+    // Randomly remove enough entries to only leave nobs observed
+    assert(nobs <= N * N);
+    Board board(N);
+
+    int *perm = genPerm(N); // permuted 1...N
+
+    // Fill diag of board with perm
+    for (int i = 0; i < N; i++)
+        board(i, i) = perm[i];
+    delete[] perm;
+
+    // Solve board
+    bool isSolved = solve(board, 0, 0);
+    assert(isSolved);
+
+    // Remove N*N - nobs entries
+    perm = genPerm(N * N);
+    int x, y;
+    for (int i = 0; i < (N * N - nobs); i++)
+    {
+        x = (perm[i] - 1) / N;
+        y = (perm[i] - 1) % N;
+        board(x, y) = 0;
+        board.assignImmutable(x, y, false);
+    }
+
+    delete[] perm;
+    return board;
+}
+
+int *genPerm(int N)
+{
+    // Initialize array [1,...,N]
+    int *x = new int[N];
+    for (int i = 0; i < N; i++)
+        x[i] = i + 1;
+
+    // Generate random permutation of [1,...,N]
+    int rindex;
+    int temp;
+    for (int i = (N - 1); i > 0; i--)
+    {
+        rindex = rand() % (i + 1);
+        temp = x[i];
+        x[i] = x[rindex];
+        x[rindex] = temp;
+    }
+
+    return x;
+}
