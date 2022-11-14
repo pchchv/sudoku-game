@@ -4,6 +4,8 @@ Main driver of Sudoku game
 #include <iostream>
 #include <regex>
 #include <sstream>
+#include "solver.hpp"
+#include "game.hpp"
 
 using namespace std;
 
@@ -110,6 +112,8 @@ int main(int argc, char *argv[])
     cout << "===========================================" << endl;
     cout << "============ Welcome to Sudoku! ===========" << endl;
     cout << "===========================================" << endl;
+
+    playGame(gamesize, nobs);
 
     return 0;
 }
