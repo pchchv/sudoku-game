@@ -194,3 +194,86 @@ bool Board::feasibleUser(int row, int col, int val)
     }
     return isfeasible;
 }
+
+// Helper function for solve
+// Checks to see if candidate is feasible
+bool feasible(Board &board, int row, int col, int val)
+{
+    int N = board.getSize();
+    assert(row < N);
+    assert(col < N);
+    int blockSize = (int)sqrt(N);
+
+    // Check if used yet in row
+    for (int j = 0; j < N; j++)
+        if (board(row, j) == val)
+            return false;
+
+    // Check if used yet in col
+    for (int i = 0; i < N; i++)
+        if (board(i, col) == val)
+            return false;
+
+    // Coordinates of upper-left hand corner of block that (row,col) occupies
+    int blockRow = blockSize * (row / blockSize);
+    int blockCol = blockSize * (col / blockSize);
+
+    // Check if used yet in block
+    for (int i = 0; i < blockSize; i++)
+        for (int j = 0; j < blockSize; j++)
+            if (board(blockRow + i, blockCol + j) == val)
+                return false;
+
+    return true;
+}
+
+// Backtracking algorithm
+bool solve(Board &board, int row, int col)
+{
+    // N: size of the board; note N must be a perfect square!
+    int N = board.getSize();
+    assert(N == pow(sqrt(N), 2));
+
+    // Check to see if we are at end of board
+    if (row == N)
+        return true;
+
+    // Skip over values that have been filled in
+    if (board(row, col) != 0)
+    {
+        if (col == (N - 1))
+        {
+            if (solve(board, row + 1, 0))
+                return true;
+        }
+        else
+        {
+            if (solve(board, row, col + 1))
+                return true;
+        }
+        return false;
+    }
+
+    // Try different values
+    for (int val = 1; val <= N; val++)
+    {
+        if (feasible(board, row, col, val))
+        {
+            board(row, col) = val;
+            if (col == (N - 1))
+            {
+                if (solve(board, row + 1, 0))
+                    return true;
+            }
+            else
+            {
+                if (solve(board, row, col + 1))
+                    return true;
+            }
+        }
+    }
+
+    // Backtrack if no value is found that works
+    board(row, col) = 0;
+    return false;
+}
