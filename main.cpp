@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
             }
         }
 
-        if ((string(argv[i]) == "--Unittest") ||
+        if ((string(argv[i]) == "--unittest") ||
             (string(argv[i]) == "-u"))
         {
 
@@ -94,16 +94,10 @@ int main(int argc, char *argv[])
             }
         }
 
-        if ((string(argv[i]) == "--Verbose") ||
+        if ((string(argv[i]) == "--verbose") ||
             (string(argv[i]) == "-v"))
         {
             verbose = true;
-        }
-
-        if ((string(argv[i]) == "--RP") ||
-            (string(argv[i]) == "-rp"))
-        {
-            method = "RP";
         }
     }
 
