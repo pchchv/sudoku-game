@@ -18,7 +18,6 @@ void unitTest(int size, int nobs, int ntimes, bool verbose)
 {
 
     int total = 0;
-    int total2 = 0;
 
     // Generate sudoku and solve ntimes
     for (int i = 0; i < ntimes; ++i)
