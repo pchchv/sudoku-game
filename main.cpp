@@ -6,6 +6,7 @@ Main driver of Sudoku game
 #include <sstream>
 #include "solver.hpp"
 #include "game.hpp"
+#include "test.hpp"
 
 using namespace std;
 
@@ -113,7 +114,15 @@ int main(int argc, char *argv[])
     cout << "============ Welcome to Sudoku! ===========" << endl;
     cout << "===========================================" << endl;
 
-    playGame(gamesize, nobs);
+    // Play game or run simulations
+    if (sim == 0)
+    {
+        playGame(gamesize, nobs);
+    }
+    else
+    {
+        unitTest(gamesize, nobs, sim, verbose);
+    }
 
     return 0;
 }
